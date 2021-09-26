@@ -8,19 +8,20 @@ public class RabinMiller {
 
     private final int iteration = 5;
 
-    private long prime = 6;
+    private BigInteger prime;
     private boolean result = true;
 
     private ArrayList<Thread> threads = new ArrayList<>();
 
-    public Long getPrime(){
+    public BigInteger getPrime(){
 
-        Random rand = new Random();
+        prime = BigInteger.valueOf(6);
 
-        while(!isPrime(prime)){
+        Random rnd = new Random();
 
-            prime = rand.nextInt(10);
-            System.out.println(prime+" "+isPrime(prime));
+        while(!isPrime_(prime.longValue())){
+
+            prime = BigInteger.valueOf(rnd.nextInt(100000000));
 
         }
 
@@ -43,7 +44,8 @@ public class RabinMiller {
     public boolean isPrime(long n) {
 
         Runnable task = () -> {
-            boolean res = isPrime_(n);
+            long b = n;
+            boolean res = isPrime_(b);
             if(!res)interruptAll();
         };
 
