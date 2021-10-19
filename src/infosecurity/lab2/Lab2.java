@@ -12,10 +12,8 @@ public class Lab2 {
 
         ArrayList<MITE> users = new ArrayList<>();
 
-        RabinMiller r = new RabinMiller();
-
-        BigInteger g = r.getPrime();
-        BigInteger p = r.getPrime();
+        BigInteger g = RabinMiller.getPrime();
+        BigInteger p = RabinMiller.getPrime();
 
         MITE Alice = new MITE("Alice", g, p);
         MITE Bob = new MITE("Bob", g, p);
@@ -23,17 +21,6 @@ public class Lab2 {
         users.add(Bob);
 
         MITM Eva = new MITM(g, p);
-
-/*
-        BigInteger key = Alice.getPartKey();
-        Bob.getFullKey(key);
-        Eva.interceptKey(key);
-
-        BigInteger key1 = Bob.getPartKey();
-        Alice.getFullKey(key1);
-        Eva.interceptKey(key1);
-
-*/
 
         Random rnd = new Random();
 

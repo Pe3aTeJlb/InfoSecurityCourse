@@ -6,14 +6,14 @@ import java.util.Random;
 
 public class RabinMiller {
 
-    private final int iteration = 5;
+    private static final int iteration = 5;
 
-    private BigInteger prime;
-    private boolean result = true;
+    private static BigInteger prime;
+    private static boolean result = true;
 
-    private ArrayList<Thread> threads = new ArrayList<>();
+    private static ArrayList<Thread> threads = new ArrayList<>();
 
-    public BigInteger getPrime(){
+    public static BigInteger getPrime(){
 
         prime = BigInteger.valueOf(6);
 
@@ -21,7 +21,7 @@ public class RabinMiller {
 
         while(!isPrime(prime.longValue())){
 
-            prime = BigInteger.valueOf(rnd.nextInt(1000000));
+            prime = BigInteger.valueOf(rnd.nextInt(1000));
 
         }
 
@@ -29,7 +29,23 @@ public class RabinMiller {
 
     }
 
-    public void interruptAll(){
+    public static BigInteger getPrimeOf(BigInteger upper){
+
+        prime = BigInteger.valueOf(6);
+
+        Random rnd = new Random();
+
+        while(!isPrime(prime.longValue())){
+            prime = new BigInteger(upper.bitLength(),rnd);
+            //prime = BigInteger.valueOf(rnd.nextInt(upper.intValue()-1));
+
+        }
+
+        return prime;
+
+    }
+
+    private static void interruptAll(){
 
         ArrayList<Thread> th = new ArrayList<>(threads);
 
@@ -41,7 +57,7 @@ public class RabinMiller {
 
     }
 
-    public boolean isPrime(long n) {
+    public static boolean isPrime(long n) {
 
         result = true;
 
@@ -71,7 +87,7 @@ public class RabinMiller {
 
     }
 
-    public boolean isPrime_(long n) {
+    public static boolean isPrime_(long n) {
 
         //n>3
         if (n == 0 || n == 1)
@@ -102,7 +118,7 @@ public class RabinMiller {
     }
 
     /** (a ^ b) % c **/
-    public long modPow(long a, long b, long c) {
+    private static long modPow(long a, long b, long c) {
 
         long res = 1;
         for (int i = 0; i < b; i++) {
@@ -114,7 +130,7 @@ public class RabinMiller {
     }
 
     /** (a * b) % c **/
-    public long mulMod(long a, long b, long mod) {
+    private static long mulMod(long a, long b, long mod) {
         return BigInteger.valueOf(a).multiply(BigInteger.valueOf(b)).mod(BigInteger.valueOf(mod)).longValue();
     }
 

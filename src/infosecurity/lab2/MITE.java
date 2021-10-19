@@ -10,14 +10,12 @@ public class MITE {
     private BigInteger g, p;
     private BigInteger key;
 
-    private RabinMiller r = new RabinMiller();
-
     public MITE(String name, BigInteger g, BigInteger p){
 
         this.name = name;
         this.g = g;
         this.p = p;
-        this.key = r.getPrime();
+        this.key = RabinMiller.getPrime();
 
         //System.out.println(name + " g " + g + " p " + p + " key "+ this.key);
 
@@ -41,7 +39,7 @@ public class MITE {
     }
 
     public void setNewKey(){
-        this.key = r.getPrime();
+        this.key = RabinMiller.getPrime();
     }
 
 }
