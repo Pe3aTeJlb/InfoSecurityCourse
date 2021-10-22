@@ -1,8 +1,7 @@
 package infosecurity.util;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 public class RabinMiller {
 
@@ -11,7 +10,7 @@ public class RabinMiller {
     private static BigInteger prime;
     private static boolean result = true;
 
-    private static ArrayList<Thread> threads = new ArrayList<>();
+    private static final ArrayList<Thread> threads = new ArrayList<>();
 
     public static BigInteger getPrime(){
 
@@ -43,6 +42,67 @@ public class RabinMiller {
 
         return prime;
 
+    }
+
+    public static BigInteger getSafePrime(BigInteger upper){
+
+        BigInteger safePrime = BigInteger.ZERO;
+
+        while(!isPrime(safePrime.longValue())){
+            safePrime = getPrimeOf(upper);
+            safePrime = safePrime.multiply(BigInteger.TWO).add(BigInteger.ONE);
+        }
+
+        return safePrime;
+
+    }
+
+    public static BigInteger getPrimitiveRoot(BigInteger integer){
+
+        HashMap<BigInteger, BigInteger> primeRoots = factorize(integer.subtract(BigInteger.ONE));
+        BigInteger i = BigInteger.ONE;
+
+        while(i.compareTo(integer) < 0){
+
+            for (BigInteger num: primeRoots.keySet()) {
+                if(i.modPow(integer.subtract(BigInteger.ONE.divide(num)),integer).compareTo(BigInteger.ONE) == 0) break;
+                return num;
+            }
+
+            i = i.add(BigInteger.ONE);
+
+        }
+
+        return null;
+
+    }
+
+    public static HashMap<BigInteger, BigInteger> factorize(BigInteger integer){
+
+        HashMap<BigInteger, BigInteger> primeFactors = new HashMap<>();
+        BigInteger primeFactor = BigInteger.ZERO;
+        BigInteger i = new BigInteger("2");
+
+        while (i.compareTo(integer.divide(i)) <= 0) {
+            if (integer.mod(i).longValue() == 0) {
+                primeFactor = i;
+                setBigPrimeFactor(primeFactors, primeFactor);
+                integer = integer.divide(i);
+            } else {
+                i = i.add(BigInteger.ONE);
+            }
+        }
+
+        if (primeFactor.compareTo(integer) < 0) primeFactor = integer;
+        setBigPrimeFactor(primeFactors, primeFactor);
+
+        return primeFactors;
+
+    }
+
+    private static void setBigPrimeFactor(HashMap<BigInteger, BigInteger> primeFactors, BigInteger primeFactor) {
+        BigInteger multiplicity = primeFactors.containsKey(primeFactor) ? primeFactors.get(primeFactor) : BigInteger.ZERO;
+        primeFactors.put(primeFactor, multiplicity.add(BigInteger.ONE));
     }
 
     private static void interruptAll(){

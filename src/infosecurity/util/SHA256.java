@@ -29,19 +29,22 @@ public class SHA256 {
 
     public static String encrypt(String message){
 
-        System.out.println("SHA 256 " + message + "\n");
+        System.out.println("SHA 256 input message : " + message);
 
         StringBuilder msg = new StringBuilder(message);
         StringBuilder formatted = format(msg);
         ArrayList<StringBuilder> schedules  = msgSchedule(formatted);
         indexReplace(schedules);
-        return compress(schedules);
+
+        String output = compress(schedules);
+        System.out.println("SHA 256 output : "+output + "\n");
+        return output;
 
     }
 
     private static StringBuilder format(StringBuilder msg){
 
-        System.out.println("Format"+"\n");
+        //System.out.println("Format"+"\n");
 
         msg = toBin(msg);
         int len = msg.toString().length();
@@ -51,10 +54,10 @@ public class SHA256 {
         //StringBuilder formatted = new StringBuilder(String.format("%448s", msg.toString()).replace(" ", "0"));
         StringBuilder formatted = new StringBuilder(msg.toString());
         formatted.append("0".repeat(Math.max(0, 448 - msg.length())));
-        System.out.println(formatted.toString());
+       // System.out.println(formatted.toString());
 
         String msgLen = String.format("%64s", Integer.toBinaryString(len)).replace(" ","0");
-        System.out.println(msgLen+"\n");
+       // System.out.println(msgLen+"\n");
 
         formatted.append(msgLen);
 
@@ -68,7 +71,7 @@ public class SHA256 {
 
         for(int i = 0; i < msg.length(); i++){
             String bin = String.format("%8s", Integer.toBinaryString(msg.charAt(i))).replace(" ","0");
-            System.out.println(msg.charAt(i)+" "+bin);
+            //System.out.println(msg.charAt(i)+" "+bin);
             buff.append(bin);
         }
 
@@ -78,7 +81,7 @@ public class SHA256 {
 
     private static ArrayList<StringBuilder> msgSchedule(StringBuilder msg){
 
-        System.out.println("Scheduling"+"\n");
+       // System.out.println("Scheduling"+"\n");
 
         ArrayList<StringBuilder> msgSchedule = new ArrayList<>();
 
@@ -90,8 +93,8 @@ public class SHA256 {
             msgSchedule.add(new StringBuilder(String.format("%32s", "").replace(" ","0")));
         }
 
-        System.out.println(msgSchedule);
-        System.out.println();
+        //System.out.println(msgSchedule);
+        //System.out.println();
 
         return msgSchedule;
 
@@ -99,7 +102,7 @@ public class SHA256 {
 
     private static ArrayList<StringBuilder> indexReplace(ArrayList<StringBuilder> schedules){
 
-        System.out.println("Index replace"+"\n");
+      //  System.out.println("Index replace"+"\n");
 
         for(int i = 16; i < 64; i++){
 
@@ -129,10 +132,13 @@ public class SHA256 {
 
         }
 
+        /*
         for(int i = 0; i< schedules.size(); i+=2){
             System.out.println(schedules.get(i)+" "+schedules.get(i+1));
         }
         System.out.println();
+
+         */
 
         return schedules;
 
@@ -155,7 +161,7 @@ public class SHA256 {
 
     private static String compress(ArrayList<StringBuilder> schedules){
 
-        System.out.println("Compression"+"\n");
+       // System.out.println("Compression"+"\n");
 
         String a = String.format("%32s", hex[0].toString(2)).replace(" ","0");
         String b = String.format("%32s", hex[1].toString(2)).replace(" ","0");
@@ -214,6 +220,7 @@ public class SHA256 {
         String s6 = new BigInteger(g,2).add(hex[6]).mod(BigInteger.TWO.pow(32)).toString(16);
         String s7 = new BigInteger(h,2).add(hex[7]).mod(BigInteger.TWO.pow(32)).toString(16);
 
+        /*
         System.out.println(new BigInteger(a,2).toString(16)+"\n"+
                 new BigInteger(b,2).toString(16)+"\n"+
                 new BigInteger(c,2).toString(16)+"\n"+
@@ -222,6 +229,8 @@ public class SHA256 {
                 new BigInteger(f,2).toString(16)+"\n"+
                 new BigInteger(g,2).toString(16)+"\n"+
                 new BigInteger(h,2).toString(16));
+
+         */
         //System.out.println(s0+"\n"+s1+"\n"+s2+"\n"+s3+"\n"+s4+"\n"+s5+"\n"+s6+"\n"+s7);
 
         return s0 + s1 + s2 + s3 + s4 + s5 + s6 + s7;
