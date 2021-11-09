@@ -29,7 +29,7 @@ public class SHA256 {
 
     public static String encrypt(String message){
 
-        System.out.println("SHA 256 input message : " + message);
+        System.out.println("Hash input message : " + message);
 
         StringBuilder msg = new StringBuilder(message);
         StringBuilder formatted = format(msg);
@@ -37,7 +37,7 @@ public class SHA256 {
         indexReplace(schedules);
 
         String output = compress(schedules);
-        System.out.println("SHA 256 output : "+output + "\n");
+        System.out.println("Hash output : "+output + "\n");
         return output;
 
     }

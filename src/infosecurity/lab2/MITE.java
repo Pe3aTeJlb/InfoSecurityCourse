@@ -17,7 +17,7 @@ public class MITE {
         this.p = p;
         this.key = RabinMiller.getPrime();
 
-        //System.out.println(name + " g " + g + " p " + p + " key "+ this.key);
+        System.out.println(name + " g " + g + " p " + p + " key "+ this.key);
 
     }
 

@@ -54,6 +54,7 @@ public class Lab2 {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
         };
 
         Thread conversation = new Thread(task);
