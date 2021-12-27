@@ -10,10 +10,10 @@ public class Lab4 {
     public static void main(String[] args) {
 
         BigInteger n = RabinMiller.getSafePrime(BigInteger.valueOf(200));
-        System.out.println("n: " + n);
+        System.out.println("Create n: " + n);
 
         BigInteger g = RabinMiller.getPrimitiveRoot(n);
-        System.out.println("g: " + g + "\n");
+        System.out.println("Create g: " + g + "\n");
 
 
         Server server = new Server(n, g);
@@ -29,6 +29,7 @@ public class Lab4 {
         System.out.println("Server session key is: " + server.generateSessionKey("login")+"\n");
 
         String m1 = client.generateM1();
+        System.out.println();
         server.verifyM1(m1);
 
     }

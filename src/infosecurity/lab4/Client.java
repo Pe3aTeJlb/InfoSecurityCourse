@@ -31,6 +31,7 @@ public class Client {
     public Client(BigInteger n, BigInteger g, String login, String password){
 
         System.out.println("Create client");
+        System.out.println("n = " + n + " g = " + g + " login: "+login+" password: "+password);
 
         this.N = n;
         this.g = g;
@@ -40,8 +41,10 @@ public class Client {
         salt = "1jkb327g";
         System.out.println("Salt : "+salt);
 
+        System.out.println("Hash password+salt");
         x = new BigInteger(SHA256.encrypt(this.password+salt),16);
         v = g.modPow(x,this.N);
+        System.out.println("v = g ^ x % N = " + v + "\n");
 
     }
 
@@ -51,12 +54,12 @@ public class Client {
 
     public AbstractMap.SimpleImmutableEntry<String,BigInteger> generateA(){
 
-        System.out.println("Client generats A");
+        System.out.println("Client generats A as g ^ a % N");
 
         a = new BigInteger(1000,new Random());
         A = g.modPow(a,N);
 
-        System.out.println("A : "+A.toString()+"\n");
+        System.out.println("A = "+A.toString()+"\n");
 
         return new AbstractMap.SimpleImmutableEntry<>(login, A);
 
@@ -64,7 +67,7 @@ public class Client {
 
     public BigInteger generateSessionKey(AbstractMap.SimpleImmutableEntry<String,BigInteger> entry){
 
-        System.out.println("Client generate session key");
+        System.out.println("Client generate session key as (B - (g^x%N)*k) ^ (a+(A concat B hash)) % N");
 
         B = entry.getValue();
         BigInteger u = new BigInteger(SHA256.encrypt(A.toString(16)+B.toString(16)),16);
@@ -79,7 +82,7 @@ public class Client {
     }
 
     public String generateM1(){
-        System.out.println("Client generate M1");
+        System.out.println("Client generate M1 as (A concat B concat Key) hash");
         return SHA256.encrypt(A.toString()+B.toString()+key.toString());
     }
 

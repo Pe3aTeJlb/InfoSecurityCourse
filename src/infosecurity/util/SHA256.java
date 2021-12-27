@@ -37,7 +37,7 @@ public class SHA256 {
         indexReplace(schedules);
 
         String output = compress(schedules);
-        System.out.println("Hash output : "+output + "\n");
+        System.out.println("Hash output : "+output);
         return output;
 
     }

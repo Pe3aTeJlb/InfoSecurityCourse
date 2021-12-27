@@ -25,8 +25,6 @@ public class Hash {
 
     public static String hash(String message){
 
-       // System.out.println("Hash input message : " + message);
-
         StringBuilder msg = new StringBuilder(message);
 
         return format(msg).substring(23,87);
@@ -34,8 +32,6 @@ public class Hash {
     }
 
     private static String format(StringBuilder msg){
-
-      //  System.out.println("Format"+"\n");
 
         msg = toBin(msg);
         len = BigInteger.valueOf(msg.toString().length());
@@ -63,7 +59,6 @@ public class Hash {
 
         for(int i = 0; i < msg.length(); i++){
             String bin = String.format("%8s", Integer.toBinaryString(msg.charAt(i))).replace(" ","0");
-           // System.out.println(msg.charAt(i)+" "+bin);
             buff.append(bin);
         }
 
